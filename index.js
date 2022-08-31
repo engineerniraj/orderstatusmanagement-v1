@@ -1,13 +1,28 @@
 var msg = new SpeechSynthesisUtterance();
 
-
 let orderStatuses = document.getElementsByClassName('order-status-block')
 
 
+
+      function validate(){
+		let orderId = document.getElementById('order-id-input').value
+        
+		if(orderId&&orderId.match(/[0-9]/i)){
+			document.getElementById('order-id-input').value = ''
+		document.getElementById('order-id-display').innerText = `Order Status for ID: NP- ${orderId}`
+		executeOrder()
+
+		}else{
+			document.getElementById('order-id-input').value = ''
+		document.getElementById('order-id-display').innerText = `Oops! Invalid Order ID 😰`
+		}
+		
+	  }
+
+
+
 const executeOrder = () => {
-	let orderId = document.getElementById('order-id-input').value
-	document.getElementById('order-id-input').value = ''
-	document.getElementById('order-id-display').innerText = `Order Status for ID: ${orderId}`
+	
 	orderStatuses[0].classList.remove('btn-light')
 	orderStatuses[0].classList.add('btn-success')
 
@@ -24,8 +39,11 @@ const executeOrder = () => {
 			orderStatuses[9].classList.add('btn-success')
 		})
 		.catch((err) => console.log(err))
+
+		
 }
-      
+  
+
 const chefReceived = () => {
 	return new Promise((resolve, reject) => {
 		setTimeout(() => {
@@ -124,8 +142,14 @@ const packageReceivedAtCounter = () => {
 			orderStatuses[8].classList.add('btn-success')
 			resolve()
 			msg.text = "Package received at counter ";
+			msg.text = "The order is ready and handed over to the Zomato delivery guy! ";
             window.speechSynthesis.speak(msg);
-		}, 2000)
+			document.getElementById('boy').src='zomato-guy.gif'
+		}, 4000)
+	
 	})
+
+
+	
 }
 
